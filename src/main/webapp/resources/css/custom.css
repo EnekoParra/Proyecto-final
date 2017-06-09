@@ -13,9 +13,20 @@
     height: auto;
 }
 
+#modificarimg{
+	width:65px;
+	height: auto;
+}
+
+#eliminarimg{
+	width:65px;
+	height: auto;
+}
+
 .table{
 	align:center;
 }
+
 
 .responstable {
   margin: 1em 0;

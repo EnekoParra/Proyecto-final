@@ -11,6 +11,7 @@
 <head>
 	<title>Curso</title>
 	<base href="/formacion/" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
 	
 	<!-- Custom -->

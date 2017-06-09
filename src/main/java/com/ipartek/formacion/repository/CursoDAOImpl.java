@@ -43,9 +43,13 @@ public class CursoDAOImpl implements CursoDAO {
 
 	// Sentencias SQL
 		private static final String SQL_GET_ALL = "SELECT `id`, `nombre`, `codigo` FROM `curso` ORDER BY `id` DESC LIMIT 1000;";
-		private static final String SQL_ADD_CURSO ="INSERT INTO `curso` (`nombre`,`codigo`) VALUES (?)";
-		private static final String SQL_GET_BY_ID ="SELECT `id`, `nombre`, `codigo` FROM `cursos` WHERE `id`= ?";
-	
+		private static final String SQL_GET_ALL_HOME = "SELECT `id`, `nombre`, `codigo` FROM `curso` ORDER BY `id` DESC LIMIT 10;";
+		private static final String SQL_ADD_CURSO ="INSERT INTO `curso` (`nombre`,`codigo`) VALUES (?,?) ";
+		private static final String SQL_GET_BY_ID ="SELECT `id`, `nombre`, `codigo` FROM `curso` WHERE `id`= ? ";
+		private static final String SQL_UPDATE = "UPDATE `curso` SET `nombre`= ? , `codigo`= ?  WHERE `id`= ? ";
+		private static final String SQL_DELETE = "DELETE FROM `curso` WHERE `id`= ? ";
+		private static final String SQL_AUTOCOMPLETE = "SELECT `id`, `nombre`, `codigo` FROM `curso` WHERE `nombre` LIKE '%' ? '%' OR `codigo` LIKE '%' ? '%' ;";		
+		
 	@Override
 	public List<Curso> getAll() {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
@@ -68,6 +72,27 @@ public class CursoDAOImpl implements CursoDAO {
 	}
 
 	@Override()
+	public List<Curso> getAllhome() {
+		ArrayList<Curso> lista = new ArrayList<Curso>();
+		this.LOG.trace("Recuperando 10 usuarios");
+		try {
+
+			lista = (ArrayList<Curso>) this.jdbctemplate.query(SQL_GET_ALL_HOME, new CursoMapper());
+
+		} catch (EmptyResultDataAccessException e) {
+
+			this.LOG.warn("No existen cursos todavia",e);
+
+		} catch (Exception e) {
+
+			this.LOG.error("Excepcion inesperada",e);
+
+		}
+
+		return lista;
+	}
+	
+	@Override()
 	public boolean insert(final Curso curso) {
 		boolean insertado = false;
 		int lineasInsertadas = 0;
@@ -77,8 +102,8 @@ public class CursoDAOImpl implements CursoDAO {
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement prepared = connection.prepareStatement(SQL_ADD_CURSO,
 						Statement.RETURN_GENERATED_KEYS);
-				prepared.setString(2, curso.getNombre());
-				prepared.setString(3, curso.getCodigo());
+				prepared.setString(1, curso.getNombre());
+				prepared.setString(2, curso.getCodigo());
 				return prepared;
 			}
 		}, keyHolder);
@@ -97,16 +122,36 @@ public class CursoDAOImpl implements CursoDAO {
 		return curso;
 	}
 	
-	@Override
-	public boolean update(Curso c) {
-		// TODO Auto-generated method stub
-		return false;
+	@Override()
+	public boolean update(Curso curso) {
+		boolean modificado = false;
+		int lineasModificadas = 0;
+		lineasModificadas = this.jdbctemplate.update(SQL_UPDATE, curso.getNombre(),curso.getCodigo(), curso.getId());
+		if (lineasModificadas != 0) {
+			modificado = true;
+		}
+		return modificado;
+	}
+
+	@Override()
+	public boolean delete(long idCurso) {
+		boolean borrado = false;
+		int lineasBorradas = 0;
+		lineasBorradas = this.jdbctemplate.update(SQL_DELETE, idCurso);
+		if (lineasBorradas != 0) {
+			borrado = true;
+		}
+		return borrado;
 	}
 
 	@Override
-	public boolean delete(long id) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Curso> autocomplete(String filtro) {
+		List<Curso> cursos = this.jdbctemplate.query(
+				SQL_AUTOCOMPLETE, 
+				new Object[] { filtro , filtro}, new CursoMapper());
+		
+		return cursos;
 	}
+
 
 }

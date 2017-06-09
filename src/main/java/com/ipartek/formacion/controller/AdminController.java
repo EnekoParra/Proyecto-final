@@ -34,7 +34,7 @@ public class AdminController {
 	 * @param curso 
 	 * @return admin/curso
 	 */
-	@RequestMapping(value = "admin/detalle/{idCurso}", method = RequestMethod.GET)
+	@RequestMapping(value = "admin/curso/{idCurso}", method = RequestMethod.GET)
 	public String consultar(@PathVariable() int idCurso, Model model) {
 		if(idCurso!=-1){
 			model.addAttribute("curso", this.cursoService.getById(idCurso));
@@ -66,7 +66,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin/modificar", method = RequestMethod.POST)
 	public String modificar(Curso curso, Model model) {
 		this.cursoService.modificar(curso);
-		model.addAttribute("cursos", this.cursoService.listar());
+		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}
 	
@@ -79,7 +79,20 @@ public class AdminController {
 	@RequestMapping(value = "/admin/eliminar/{idCurso}", method = RequestMethod.GET)
 	public String eliminar(@PathVariable() int idCurso, Model model) {
 		this.cursoService.eliminar(idCurso);
-		model.addAttribute("cursos", this.cursoService.listar());
+		model.addAttribute("curso", this.cursoService.listar());
+		return "admin/backoffice";
+	}
+	
+	/**
+	 * Mapping para migrar cursos
+	 * @param curso 
+	 * @return admin/backoffice
+	 */
+	
+	@RequestMapping(value = "/admin/migrar", method = RequestMethod.GET)
+	public String migrar(Model model) {
+		this.cursoService.migrar();
+		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}
 }

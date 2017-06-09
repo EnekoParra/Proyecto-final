@@ -22,6 +22,8 @@ public interface CursoDAO {
 	 */
 	List<Curso> getAll();
 	
+	List<Curso> getAllhome();
+	
 	Curso getById(int idCurso);
 	
 	boolean insert(Curso c);
@@ -29,5 +31,10 @@ public interface CursoDAO {
 	boolean update(Curso c);
 	
 	boolean delete(long id);
+	
+	List<Curso> autocomplete(String filtro);
+
+	
+
 
 }

@@ -14,6 +14,8 @@ public interface CursoService {
 	 */
 	List<Curso> listar();
 	
+	List<Curso> listarhome();
+	
 	Curso getById(int idCurso);
 	
 	boolean crear(Curso c);
@@ -21,4 +23,9 @@ public interface CursoService {
 	boolean modificar(Curso c);
 
 	boolean eliminar(long id);
+	
+	List<Curso> autocomplete(String filtro);
+	
+	void migrar();
+
 }

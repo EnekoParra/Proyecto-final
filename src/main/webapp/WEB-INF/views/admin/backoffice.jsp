@@ -7,20 +7,24 @@
 
 			<p>Listado de cursos</p>
 		</div>
+		<ul class="nav navbar-nav navbar-right">
+				<li><a href="admin/migrar">Migrar datos</a></li>
+			</ul>
 	</div>
 	<!-- /.container-fluid -->
 </nav>
 
 
 <a href="admin/curso/-1"><img id="crearimg" src="resources/img/crear.png"></a>
-	
+
+
 
 <table class="responstable">
 	<thead>
 		<tr>
 			<th>Nombre</th>
 			<th>Codigo</th>
-			<th></th>
+			<th> </th>
 		</tr>
 	</thead>
 	<c:forEach items="${curso}" var="c">
@@ -28,11 +32,12 @@
 			<tr>
 				<td>${c.nombre}</td>
 				<td>${c.codigo}</td>
+				<td><a href="admin/curso/${c.id}"><img id="modificarimg" src="resources/img/modificar.png"></a>
+				<a href="admin/eliminar/${c.id}"><img id="eliminarimg" src="resources/img/eliminar.png"></a></td>
 			</tr>
 		</tbody>
 	</c:forEach>
 </table>
-
-
+<a href="" class="btn btn-primary">Volver</a>
 
 <%@ include file="../includes/footer.jsp"%>

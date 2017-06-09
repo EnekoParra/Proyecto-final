@@ -18,7 +18,38 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-
-
-
+	<!-- Formulario Crear -->
+	<c:if test = "${curso.id == -1}">
+				<form:form method="POST" action="admin/crear"
+					modelAttribute="curso">
+					<div class="modal-body">
+					<form:hidden path="id"/>
+						<form:label path="nombre">Nombre:</form:label>
+						<form:input path="nombre"  class="form-control"></form:input>
+						<form:label path="codigo">Codigo:</form:label>
+						<form:input path="codigo" class="form-control"></form:input>
+					</div>
+					<div class="modal-footer">
+						<a href="admin" class="btn btn-primary">Volver</a>
+						<form:button type="submit" class="btn btn-default">Crear</form:button>
+					</div>
+				</form:form>
+	</c:if>
+	<!-- Formulario Modificar -->
+	<c:if test = "${curso.id != -1}">
+				<form:form method="POST" action="admin/modificar"
+					modelAttribute="curso">
+					<div class="modal-body">
+					<form:hidden path="id"/>
+						<form:label path="nombre">Nombre:</form:label>
+						<form:input path="nombre"  class="form-control"></form:input>
+						<form:label path="codigo">Codigo:</form:label>
+						<form:input path="codigo" class="form-control"></form:input>
+					</div>
+					<div class="modal-footer">
+						<a href="admin" class="btn btn-primary">Volver</a>
+						<form:button type="submit" class="btn btn-default">Modificar</form:button>
+					</div>
+				</form:form>
+	</c:if>
 <%@ include file="../includes/footer.jsp"%>
