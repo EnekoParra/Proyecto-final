@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ipartek.formacion.domain.Curso;
 import com.ipartek.formacion.services.CursoService;
 
+/**
+ * Controlador del admin
+ * @author Eneko
+ *
+ */
 @Controller()
 public class AdminController {
 	
@@ -20,18 +25,22 @@ public class AdminController {
 	/**
 	 * Mapping para listar todos los cursos
 	 * @param model
+	 * 			model
 	 * @return admin/backoffice
 	 */
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String listar(Model model) {
-		model.addAttribute("curso", cursoService.listar());
+		model.addAttribute("curso", this.cursoService.listar());
 		
 		return "admin/backoffice";
 	}
 	
 	/**
-	 * Mapping para seleccionar curso por id
-	 * @param curso 
+	 * Consultar cursos
+	 * @param idCurso
+	 * 			idCurso
+	 * @param model
+	 * 			model
 	 * @return admin/curso
 	 */
 	@RequestMapping(value = "admin/curso/{idCurso}", method = RequestMethod.GET)
@@ -46,8 +55,13 @@ public class AdminController {
 	}
 	
 	/**
-	 * Mapping para crear un nuevo curso
-	 * @param curso 
+	 * Crear curso
+	 * @param curso
+	 * 			curso
+	 * @param model
+	 * 			model
+	 * @param bindingResult
+	 * 			bindingResult
 	 * @return admin/backoffice
 	 */
 	@RequestMapping(value = "/admin/crear", method = RequestMethod.POST)
@@ -59,9 +73,12 @@ public class AdminController {
 	
 	
 	/**
-	 * Mapping para modificar un curso
-	 * @param curso 
-	 * @return admin/curso
+	 * Modificar curso
+	 * @param curso
+	 * 			curso
+	 * @param model
+	 * 			model
+	 * @return admin/backoffice
 	 */
 	@RequestMapping(value = "/admin/modificar", method = RequestMethod.POST)
 	public String modificar(Curso curso, Model model) {
@@ -70,12 +87,15 @@ public class AdminController {
 		return "admin/backoffice";
 	}
 	
-	/**
-	 * Mapping para eliminar un curso
-	 * @param curso 
-	 * @return admin/curso
-	 */
 	
+	/**
+	 * Eliminar curso
+	 * @param idCurso
+	 * 			idCurso
+	 * @param model
+	 * 			model
+	 * @return admin/backoffice
+	 */
 	@RequestMapping(value = "/admin/eliminar/{idCurso}", method = RequestMethod.GET)
 	public String eliminar(@PathVariable() int idCurso, Model model) {
 		this.cursoService.eliminar(idCurso);
@@ -83,12 +103,13 @@ public class AdminController {
 		return "admin/backoffice";
 	}
 	
+
 	/**
-	 * Mapping para migrar cursos
-	 * @param curso 
+	 * Migrar datos de BBDD
+	 * @param model
+	 * 			model
 	 * @return admin/backoffice
 	 */
-	
 	@RequestMapping(value = "/admin/migrar", method = RequestMethod.GET)
 	public String migrar(Model model) {
 		this.cursoService.migrar();

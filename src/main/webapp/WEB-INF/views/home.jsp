@@ -19,7 +19,7 @@
 					<div class="input-group">
 						<span class="input-group-addon"> <span
 							class="glyphicon glyphicon-search"></span>
-						</span> <input type="text" id="autocomplete" class="form-control" size=55
+						</span> <input type="text" id="autocomplete" class="form-control" size=70
 							placeholder="Buscar curso..">
 					</div>
 				</form>
@@ -33,6 +33,13 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+<c:if test="${empty curso}"><h2>No hay cursos disponibles</h2></c:if>
 
+<ol class="list-group">
+	<c:forEach items="${curso}" var="c">
+				<li class="list-group-item list-group-item-info"><p>
+						${c.nombre}</p></li>
+	</c:forEach>
+</ol>
 
 <%@ include file="includes/footer.jsp"%>

@@ -24,6 +24,11 @@ import java.sql.Statement;
 import com.ipartek.formacion.domain.Curso;
 import com.ipartek.formacion.repository.mapper.CursoMapper;
 
+/**
+ * Implementacion del DAO de curso
+ * @author Eneko
+ *
+ */
 @Repository(value="cursoDAO")
 public class CursoDAOImpl implements CursoDAO {
 	
@@ -42,7 +47,7 @@ public class CursoDAOImpl implements CursoDAO {
 	}
 
 	// Sentencias SQL
-		private static final String SQL_GET_ALL = "SELECT `id`, `nombre`, `codigo` FROM `curso` ORDER BY `id` DESC LIMIT 1000;";
+		private static final String SQL_GET_ALL = "SELECT `id`, `nombre`, `codigo` FROM `curso` ORDER BY `id` DESC";
 		private static final String SQL_GET_ALL_HOME = "SELECT `id`, `nombre`, `codigo` FROM `curso` ORDER BY `id` DESC LIMIT 10;";
 		private static final String SQL_ADD_CURSO ="INSERT INTO `curso` (`nombre`,`codigo`) VALUES (?,?) ";
 		private static final String SQL_GET_BY_ID ="SELECT `id`, `nombre`, `codigo` FROM `curso` WHERE `id`= ? ";
@@ -50,14 +55,13 @@ public class CursoDAOImpl implements CursoDAO {
 		private static final String SQL_DELETE = "DELETE FROM `curso` WHERE `id`= ? ";
 		private static final String SQL_AUTOCOMPLETE = "SELECT `id`, `nombre`, `codigo` FROM `curso` WHERE `nombre` LIKE '%' ? '%' OR `codigo` LIKE '%' ? '%' ;";		
 		
-	@Override
+	@Override()
 	public List<Curso> getAll() {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 		this.LOG.trace("Recuperando usuarios");
 		try {
-
 			lista = (ArrayList<Curso>) this.jdbctemplate.query(SQL_GET_ALL, new CursoMapper());
-
+		
 		} catch (EmptyResultDataAccessException e) {
 
 			this.LOG.warn("No existen cursos todavia",e);
@@ -115,7 +119,7 @@ public class CursoDAOImpl implements CursoDAO {
 		return insertado;
 	}
 
-	@Override
+	@Override()
 	public Curso getById(int idCurso) {
 		Curso curso = this.jdbctemplate.queryForObject(SQL_GET_BY_ID,
 				new Object[] { idCurso }, new CursoMapper());
@@ -144,7 +148,7 @@ public class CursoDAOImpl implements CursoDAO {
 		return borrado;
 	}
 
-	@Override
+	@Override()
 	public List<Curso> autocomplete(String filtro) {
 		List<Curso> cursos = this.jdbctemplate.query(
 				SQL_AUTOCOMPLETE, 

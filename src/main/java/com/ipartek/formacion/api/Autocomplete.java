@@ -13,15 +13,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ipartek.formacion.domain.Curso;
 import com.ipartek.formacion.services.CursoService;
 
-@Controller
+/**
+ * Controlador para autocompletar el buscador
+ * @author Eneko
+ */
+@Controller()
 @RequestMapping(value = "/api/")
 public class Autocomplete {
 
-	@Autowired
-	CursoService cursoService;
+	@Autowired()
+	private CursoService cursoService;
 	
+	/**
+	 * Listar el autocomplete
+	 * @param filtro
+	 * 			filtro
+	 * @return cursos
+	 */
 	@RequestMapping(value="cursos", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Curso> autocomplete(@RequestParam(value = "filtro", required = false) String filtro){
+	public @ResponseBody() List<Curso> autocomplete(@RequestParam(value = "filtro", required = false) String filtro){
 
 		List<Curso> cursos = null;
 		if (filtro != null){

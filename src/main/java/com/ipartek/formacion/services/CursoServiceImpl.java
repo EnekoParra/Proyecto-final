@@ -12,6 +12,11 @@ import com.ipartek.formacion.domain.Curso;
 import com.ipartek.formacion.repository.CursoDAO;
 import com.opencsv.CSVReader;
 
+/**
+ * Implementacion del servicio de curso
+ * @author Eneko
+ *
+ */
 @Service(value = "cursoService")
 public class CursoServiceImpl implements CursoService {
 
@@ -19,51 +24,51 @@ public class CursoServiceImpl implements CursoService {
 	
 	private final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired
+	@Autowired()
 	private CursoDAO daoCurso;
 
-	@Override
+	@Override()
 	public List<Curso> listar() {
-		logger.trace("listar cursos");
-		return daoCurso.getAll();
+		this.logger.trace("listar cursos");
+		return this.daoCurso.getAll();
 	}
 	
-	@Override
+	@Override()
 	public List<Curso> listarhome() {
-		logger.trace("listar 10 ultimos cursos");
-		return daoCurso.getAllhome();
+		this.logger.trace("listar 10 ultimos cursos");
+		return this.daoCurso.getAllhome();
 	}
 
-	@Override
+	@Override()
 	public Curso getById(int idCurso) {
-		logger.trace("Coger curso por id");
+		this.logger.trace("Coger curso por id");
 		return this.daoCurso.getById(idCurso);
 	}
 
-	@Override
+	@Override()
 	public boolean crear(Curso c) {
-		logger.trace("Creando curso: " + c);
-		return daoCurso.insert(c);
+		this.logger.trace("Creando curso: " + c);
+		return this.daoCurso.insert(c);
 	}
 
-	@Override
+	@Override()
 	public boolean modificar(Curso c) {
-		logger.trace("Modificando curso: " + c);
-		return daoCurso.update(c);
+		this.logger.trace("Modificando curso: " + c);
+		return this.daoCurso.update(c);
 	}
 
-	@Override
+	@Override()
 	public boolean eliminar(long id) {
-		logger.trace("Eliminando por id: " + id);
-		return daoCurso.delete(id);
+		this.logger.trace("Eliminando por id: " + id);
+		return this.daoCurso.delete(id);
 	}
 
-	@Override
+	@Override()
 	public List<Curso> autocomplete(String filtro) {
 		return this.daoCurso.autocomplete(filtro);
 	}
 
-	@Override
+	@Override()
 	public void migrar() {
 		try {
 			int cont = 0;

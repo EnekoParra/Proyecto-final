@@ -16,28 +16,34 @@
 
 
 <a href="admin/curso/-1"><img id="crearimg" src="resources/img/crear.png"></a>
+<a href="logout"><img id="volverpng" src="resources/img/logout.png"></a>
 
 
 
-<table class="responstable">
+<table class="responstable" id="tabla">
 	<thead>
 		<tr>
 			<th>Nombre</th>
 			<th>Codigo</th>
-			<th> </th>
+			<th>
+			<input type="text" id="buscador" onkeyup="buscador()" placeholder="Busca por nombre.."> 
+			 </th>
 		</tr>
 	</thead>
 	<c:forEach items="${curso}" var="c">
 		<tbody>
 			<tr>
-				<td>${c.nombre}</td>
-				<td>${c.codigo}</td>
+				<td >${c.nombre}</td>
+				<td >${c.codigo}</td>
 				<td><a href="admin/curso/${c.id}"><img id="modificarimg" src="resources/img/modificar.png"></a>
 				<a href="admin/eliminar/${c.id}"><img id="eliminarimg" src="resources/img/eliminar.png"></a></td>
 			</tr>
 		</tbody>
 	</c:forEach>
 </table>
-<a href="" class="btn btn-primary">Volver</a>
+
+<c:if test="${empty curso}"><td><p>No hay cursos disponibles</p></td></c:if>
+
+<button onclick="subir()" id="subir">Subir</button>
 
 <%@ include file="../includes/footer.jsp"%>
