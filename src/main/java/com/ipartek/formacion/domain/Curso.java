@@ -13,7 +13,7 @@ public class Curso  {
 	
 	
 	/**
-	 * Consctuctor Curso
+	 * Constructor Curso
 	 */
 	public Curso() {
 		super();

@@ -35,7 +35,7 @@
 	position: relative;
 	width: 100px;
     height: auto;
-    left: 1000px;
+    left: 75%;
   
 }
 
@@ -178,4 +178,10 @@ h1 span {
 
 #subir:hover {
   background-color: #555;
+}
+
+
+.btn btn-info paginationInit{
+	position:relative;
+	float:left;
 }

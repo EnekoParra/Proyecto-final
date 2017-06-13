@@ -64,9 +64,6 @@ public interface CursoService {
 	 */
 	List<Curso> autocomplete(String filtro);
 	
-	/**
-	 * Migrar datos de BBDD
-	 */
-	void migrar();
+	
 
 }

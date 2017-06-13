@@ -51,5 +51,3 @@ function subir() {
     document.documentElement.scrollTop = 0;
 }
 
-
-

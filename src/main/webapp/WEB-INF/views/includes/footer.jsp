@@ -2,5 +2,6 @@
  <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="resources/js/curso.js"></script>
+
 </body>
 </html>

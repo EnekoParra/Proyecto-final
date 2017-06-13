@@ -1,6 +1,12 @@
 package com.ipartek.formacion.controller;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.formacion.domain.Curso;
+import com.ipartek.formacion.repository.CursoDAO;
 import com.ipartek.formacion.services.CursoService;
+import com.opencsv.CSVReader;
 
 /**
  * Controlador del admin
@@ -21,6 +29,15 @@ public class AdminController {
 	
 	@Autowired()
 	private CursoService cursoService;
+	
+	@Autowired()
+	private CursoDAO daoCurso;
+	
+	
+	private String msg = null;
+	
+	private static final String CSV= "c:\\Desarrollo\\Proyecto\\Proyecto-final\\deploy\\cursos.csv";
+
 	
 	/**
 	 * Mapping para listar todos los cursos
@@ -112,7 +129,53 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/migrar", method = RequestMethod.GET)
 	public String migrar(Model model) {
-		this.cursoService.migrar();
+		Curso curso = null;
+		ArrayList<Curso> sinInsertar = new ArrayList<Curso>();
+		CSVReader reader = null;
+		try {
+	         reader = new CSVReader(new FileReader(CSV),';');
+	         List<String[]> texto = reader.readAll();
+	         boolean primeraLinea=true;
+
+		     for (String[] linea: texto) {
+		    	 try{
+		        	 if(!primeraLinea){
+		        		 curso= new Curso(linea[1],linea[8]);
+		        		 this.cursoService.crear(curso);
+		        		 this.msg = "Creado nuevo curso";
+		        	 }
+		        	 primeraLinea=false;
+		        	 this.msg = "Creado nuevo curso";
+		        	 
+		    	 }catch(DuplicateKeyException  e)
+	        	 {
+	        		 e.printStackTrace();
+	        		 sinInsertar.add(curso);
+	        	 }
+			}
+		     reader.close();
+	        
+		        	
+	         
+	      }//end primer try
+	      catch(Exception e){
+       		 e.printStackTrace();
+		        	
+	      }finally 
+	        	 {
+    		 if (null != reader) 
+    		 {
+    			 try {
+    				 reader.close();
+    				 
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    		 } //end if
+	     	}//end finally
+		this.msg = "No han sido creados "+ sinInsertar.size()+" cursos porque ya estan creados.";
+		model.addAttribute("msg", this.msg);
 		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}

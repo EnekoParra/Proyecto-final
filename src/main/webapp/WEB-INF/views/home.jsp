@@ -1,6 +1,6 @@
 <%@ include file="includes/header.jsp"%>
 
-
+<div class="container">
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -41,5 +41,5 @@
 						${c.nombre}</p></li>
 	</c:forEach>
 </ol>
-
+</div>
 <%@ include file="includes/footer.jsp"%>

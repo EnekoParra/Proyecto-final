@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -97,8 +98,10 @@ public class CursoDAOImpl implements CursoDAO {
 	}
 	
 	@Override()
-	public boolean insert(final Curso curso) {
+	public boolean insert(final Curso curso) throws DuplicateKeyException {
 		boolean insertado = false;
+		try{
+		
 		int lineasInsertadas = 0;
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		lineasInsertadas = this.jdbctemplate.update(new PreparedStatementCreator() {
@@ -114,6 +117,9 @@ public class CursoDAOImpl implements CursoDAO {
 		if (lineasInsertadas != 0) {
 			insertado = true;
 			curso.setId(keyHolder.getKey().intValue());
+		}
+		}catch(DuplicateKeyException e){
+			throw new DuplicateKeyException("Curso ya insertada.");
 		}
 
 		return insertado;
