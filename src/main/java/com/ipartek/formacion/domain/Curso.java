@@ -22,7 +22,20 @@ public class Curso  {
 		this.codigo = "";
 	}
 
-
+	/**
+	 * Constructor con nombre y codigo 
+	 * @param nombre
+	 * 			nombre
+	 * @param codigo
+	 * 			codigo
+	 */
+	 public Curso(String nombre, String codigo) {
+		   super();
+		   this.id = -1;
+		   this.nombre = nombre;
+		   this.codigo= codigo;
+		  }
+	
 	/**
 	 * Getter getId
 	 * @return id

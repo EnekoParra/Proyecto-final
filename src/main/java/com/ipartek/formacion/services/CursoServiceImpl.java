@@ -1,18 +1,17 @@
 package com.ipartek.formacion.services;
 
-import java.io.FileReader;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
+
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.ipartek.formacion.domain.Curso;
 import com.ipartek.formacion.repository.CursoDAO;
-import com.opencsv.CSVReader;
+
 
 /**
  * Implementacion del servicio de curso

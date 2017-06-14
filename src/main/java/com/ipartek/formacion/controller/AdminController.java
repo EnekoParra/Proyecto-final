@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.formacion.domain.Curso;
-import com.ipartek.formacion.repository.CursoDAO;
 import com.ipartek.formacion.services.CursoService;
 import com.opencsv.CSVReader;
 
@@ -30,10 +29,7 @@ public class AdminController {
 	@Autowired()
 	private CursoService cursoService;
 	
-	@Autowired()
-	private CursoDAO daoCurso;
-	
-	
+
 	private String msg = null;
 	
 	private static final String CSV= "c:\\Desarrollo\\Proyecto\\Proyecto-final\\deploy\\cursos.csv";
@@ -83,7 +79,15 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/crear", method = RequestMethod.POST)
 	public String crear(Curso curso, Model model, BindingResult bindingResult) {
+	    
+	      if (curso.getId() == -1) {
 		this.cursoService.crear(curso);
+		this.msg = "Curso creado correctamente";
+	      }else{
+	    this.msg = "No se ha creado correctamente"; 
+	      }
+	    
+	    model.addAttribute("msg", this.msg);
 		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}
@@ -99,7 +103,13 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/modificar", method = RequestMethod.POST)
 	public String modificar(Curso curso, Model model) {
+		if (!(curso.getId() == -1)) {
 		this.cursoService.modificar(curso);
+		this.msg="Curso modificado correctamente";
+		}else{
+		this.msg="El curso no se ha podido modificar correctamente";
+		}
+		model.addAttribute("msg", this.msg);
 		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}
@@ -115,7 +125,14 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/admin/eliminar/{idCurso}", method = RequestMethod.GET)
 	public String eliminar(@PathVariable() int idCurso, Model model) {
-		this.cursoService.eliminar(idCurso);
+		if (this.cursoService.eliminar(idCurso)) {
+			this.msg = "Curso eleminado con exito";
+
+		} else {
+
+			this.msg = "No se ha podido eliminar el curso";
+		}		
+		model.addAttribute("msg", this.msg);
 		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
 	}
@@ -149,7 +166,6 @@ public class AdminController {
 		        	 
 		    	 }catch(DuplicateKeyException  e)
 	        	 {
-	        		 e.printStackTrace();
 	        		 sinInsertar.add(curso);
 	        	 }
 			}
@@ -174,7 +190,7 @@ public class AdminController {
 					}
     		 } //end if
 	     	}//end finally
-		this.msg = "No han sido creados "+ sinInsertar.size()+" cursos porque ya estan creados.";
+		this.msg = "No han sido creados "+ sinInsertar.size()+" cursos porque ya estan creados o no son correctos.";
 		model.addAttribute("msg", this.msg);
 		model.addAttribute("curso", this.cursoService.listar());
 		return "admin/backoffice";
